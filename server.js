@@ -9,14 +9,15 @@ const port = 8088
 
 const app = express()
 app.use(cors())
+app.use(express.static('static'))
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 app.post('/freeze', upload.single('frozen'), (req, res) => {
-  fse.writeFileSync(path.join(__dirname, 'static', 'archive.pkzip'), req.body.frozen)
-  res.send(`POST request received (${req.body.frozen.length} bytes)`)
+  fse.writeFileSync(path.join(__dirname, 'static', 'archives', 'archive.pkzip'), req.body.frozen)
+  res.send(`Received and stored archive of ${req.body.frozen.length} bytes`)
 })
 
 app.listen(port, () => {
